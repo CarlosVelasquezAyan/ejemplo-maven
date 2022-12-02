@@ -18,7 +18,7 @@ pipeline {
                             //Acá reemplazar por el nonbre de branch
                             branches: [[name: "feature/jenkins" ]],
                             //Acá reemplazar por su propio repositorio
-                            userRemoteConfigs: [[url: 'https://github.com/CarlosVelasquezAyan/ejemplo-maven-ceres.git']]])
+                            userRemoteConfigs: [[url: 'https://github.com/CarlosVelasquezAyan/ejemplo-maven.git']]])
                 }
             }
         }
