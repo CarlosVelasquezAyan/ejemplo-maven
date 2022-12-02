@@ -99,7 +99,7 @@ pipeline {
          stage("Paso 7: Levantar Artefacto Jar en server Jenkins"){
             steps {
                 script{
-                    sh "newman run ejemplo-maven.postman_collection.json"
+                    sh "newman run collection.json"
                 }
             }
         }
