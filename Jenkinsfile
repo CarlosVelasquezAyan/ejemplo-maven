@@ -27,7 +27,7 @@ pipeline {
         stage("Paso 1: Build && Test"){
             steps {
                 script{
-                    sh "echo 'Build && Test!' $NEXUS_USER $NEXUS_PASSWORD"
+                    sh "echo 'Build && Test!'"
                     sh "./mvnw clean package -e"    
                 }
             }
