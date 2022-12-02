@@ -54,27 +54,11 @@ pipeline {
                 }
             }
         }
-             stage("Paso 7: Levantar Artefacto Jar en server Jenkins"){
+        stage("Paso 7: Levantar Artefacto Jar en server Jenkins"){
             steps {
                 script{
                     sh "newman run /home/collection.json  -n 10  --delay-request 1000"
                 }
-            }
-        }
-          stage("Paso 8: Testear Artefacto - Dormir(Esperar 20sg) "){
-            steps {
-                script{
-                    sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
-                }
-            }
-        }
-        stage("Paso 9:Detener Atefacto jar en Jenkins server"){
-            steps {
-                sh '''
-                    echo 'Process Java .jar: ' $(pidof java | awk '{print $1}')  
-                    sleep 20
-                    kill -9 $(pidof java | awk '{print $1}')
-                '''
             }
         }
         stage("Paso 4: Detener Spring Boot"){
@@ -117,6 +101,29 @@ pipeline {
                 script{
                     sh ' curl -X GET -u admin:$NEXUS_PASSWORD "http://nexus:8081/repository/maven-usach-ceres/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
                 }
+            }
+        }
+         stage("Paso 7: Levantar Artefacto Jar en server Jenkins"){
+            steps {
+                script{
+                    sh "newman run /home/collection.json  -n 10  --delay-request 1000"
+                }
+            }
+        }
+          stage("Paso 8: Testear Artefacto - Dormir(Esperar 20sg) "){
+            steps {
+                script{
+                    sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+                }
+            }
+        }
+        stage("Paso 9:Detener Atefacto jar en Jenkins server"){
+            steps {
+                sh '''
+                    echo 'Process Java .jar: ' $(pidof java | awk '{print $1}')  
+                    sleep 20
+                    kill -9 $(pidof java | awk '{print $1}')
+                '''
             }
         }
     }
