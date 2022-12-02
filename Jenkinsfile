@@ -103,13 +103,6 @@ pipeline {
                 }
             }
         }
-         stage("Paso 7: Levantar Artefacto Jar en server Jenkins"){
-            steps {
-                script{
-                    sh "newman run /home/collection.json  -n 10  --delay-request 1000"
-                }
-            }
-        }
           stage("Paso 8: Testear Artefacto - Dormir(Esperar 20sg) "){
             steps {
                 script{
