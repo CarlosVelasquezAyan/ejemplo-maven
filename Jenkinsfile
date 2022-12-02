@@ -99,7 +99,7 @@ pipeline {
          stage("Paso 7: Levantar Artefacto Jar en server Jenkins"){
             steps {
                 script{
-                    sh "newman run collection.json"
+                    sh "newman run collection.json  -n 10  --delay-request 1000"
                 }
             }
         }
