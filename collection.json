@@ -1,6 +1,5 @@
 {
 	"info": {
-		"_postman_id": "d08ea1ff-9157-4c23-9dd1-d944b02d8256",
 		"name": "ejemplo-maven",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -56,7 +55,13 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							""
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Mensaje == ok\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.mensaje).to.eql(\"ok\");",
+							"});"
 						],
 						"type": "text/javascript"
 					}
