@@ -54,25 +54,8 @@ pipeline {
                 }
             }
         }
-        stage("Paso 7: Levantar Artefacto Jar en server Jenkins"){
-            steps {
-                script{
-                    sh "newman run collection.json  -n 10  --delay-request 1000"
-                }
-            }
-        }
-        stage("Paso 4: Detener Spring Boot"){
-            steps {
-                script{
-                    sh '''
-                        echo 'Process Spring Boot Java: ' $(pidof java | awk '{print $1}')  
-                        sleep 20
-                        kill -9 $(pidof java | awk '{print $1}')
-                    '''
-                }
-            }
-        }
-           stage("Paso 5: Subir Artefacto a Nexus"){
+       
+        stage("Paso 4: Subir Artefacto a Nexus"){
             steps {
                 script{
                     nexusPublisher nexusInstanceId: 'nexus',
@@ -96,10 +79,17 @@ pipeline {
                 }
             }
         }
-        stage("Paso 6: Descargar Nexus"){
+        stage("Paso 5: Descargar Nexus"){
             steps {
                 script{
                     sh ' curl -X GET -u admin:$NEXUS_PASSWORD "http://nexus:8081/repository/maven-usach-ceres/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
+                }
+            }
+        }
+        stage("Paso 7: Levantar Artefacto Jar en server Jenkins"){
+            steps {
+                script{
+                    sh "newman run collection.json  -n 10  --delay-request 1000"
                 }
             }
         }
