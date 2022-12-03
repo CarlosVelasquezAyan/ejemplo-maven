@@ -96,10 +96,10 @@ pipeline {
             }
         }
 
-        stage("Paso 7: Testear Artefacto - Dormir(Esperar 20sg) "){
+        stage("Paso 7: Testeo con Newman - Dormir(Esperar 20sg)"){
             steps {
                 script{
-                    sh "sleep 30 && newman run collection.json"
+                    sh "sleep 20 && newman run collection.json"
                 }
             }
         }
