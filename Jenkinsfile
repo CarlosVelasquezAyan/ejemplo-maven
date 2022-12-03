@@ -50,11 +50,28 @@ pipeline {
             steps {
                 script{
                     sh "nohup bash ./mvnw spring-boot:run  & >/dev/null"
-                    sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+                    // sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
                 }
             }
         }
-       
+
+        stage("Paso 4: Newman"){
+            steps {
+                script{
+                    sh "sleep 20 && newman run collection.json  -n 10  --delay-request 1000"
+                }
+            }
+        }
+        stage("Paso 5:Detener Atefacto jar en Jenkins server"){
+            steps {
+                sh '''
+                    echo 'Process Java .jar: ' $(pidof java | awk '{print $1}')  
+                    sleep 20
+                    kill -9 $(pidof java | awk '{print $1}')
+                '''
+            }
+        }
+       /*
         stage("Paso 4: Subir Artefacto a Nexus"){
             steps {
                 script{
@@ -109,5 +126,6 @@ pipeline {
                 '''
             }
         }
+        */
     }
 }
