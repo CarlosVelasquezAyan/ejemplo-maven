@@ -50,28 +50,11 @@ pipeline {
             steps {
                 script{
                     sh "nohup bash ./mvnw spring-boot:run  & >/dev/null"
-                    // sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+                    sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
                 }
             }
         }
 
-        stage("Paso 4: Newman"){
-            steps {
-                script{
-                    sh "sleep 20 && newman run collection.json  -n 10  --delay-request 1000"
-                }
-            }
-        }
-        stage("Paso 5:Detener Atefacto jar en Jenkins server"){
-            steps {
-                sh '''
-                    echo 'Process Java .jar: ' $(pidof java | awk '{print $1}')  
-                    sleep 20
-                    kill -9 $(pidof java | awk '{print $1}')
-                '''
-            }
-        }
-       /*
         stage("Paso 4: Subir Artefacto a Nexus"){
             steps {
                 script{
@@ -96,6 +79,7 @@ pipeline {
                 }
             }
         }
+
         stage("Paso 5: Descargar Nexus"){
             steps {
                 script{
@@ -103,21 +87,24 @@ pipeline {
                 }
             }
         }
-        stage("Paso 7: Levantar Artefacto Jar en server Jenkins"){
+
+        stage("Paso 6: Levantar Artefacto Jar en server Jenkins"){
             steps {
                 script{
-                    sh "newman run collection.json  -n 10  --delay-request 1000"
+                    sh 'nohup java -jar DevOpsUsach2020-0.0.1.jar & >/dev/null'
                 }
             }
         }
-          stage("Paso 8: Testear Artefacto - Dormir(Esperar 20sg) "){
+
+        stage("Paso 7: Testear Artefacto - Dormir(Esperar 20sg) "){
             steps {
                 script{
-                    sh "sleep 20 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
+                    sh "sleep 30 && newman run ejemplo-maven.postman_collection.json"
                 }
             }
         }
-        stage("Paso 9:Detener Atefacto jar en Jenkins server"){
+
+        stage("Paso 8: Detener Atefacto jar en Jenkins server"){
             steps {
                 sh '''
                     echo 'Process Java .jar: ' $(pidof java | awk '{print $1}')  
@@ -126,6 +113,5 @@ pipeline {
                 '''
             }
         }
-        */
     }
 }
